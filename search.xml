@@ -29,31 +29,6 @@
     
     
     <entry>
-      <title>Nginx下配置SSL证书</title>
-      <link href="/2022/04/18/linux/ngxin/nginx-xia-pei-zhi-ssl-zheng-shu/"/>
-      <url>/2022/04/18/linux/ngxin/nginx-xia-pei-zhi-ssl-zheng-shu/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
-      <categories>
-          
-          <category> linux </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> nginx </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>linux安装docker</title>
       <link href="/2022/04/02/linux/docker/docker-install/"/>
       <url>/2022/04/02/linux/docker/docker-install/</url>
