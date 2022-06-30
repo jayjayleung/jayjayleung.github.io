@@ -566,7 +566,7 @@ docker-ce.x86_64  18.06.0.ce-3.el7                    docker-ce-stable<span aria
 
 
 
-<h3 id="小知识"><a href="#小知识" class="headerlink" title="小知识"></a>小知识</h3><h4 id="设置docker容器日志大小（全局设置）"><a href="#设置docker容器日志大小（全局设置）" class="headerlink" title="设置docker容器日志大小（全局设置）"></a>设置docker容器日志大小（全局设置）</h4><p>每个容器的日志默认都会以 json-file 的格式存储于<code>/var/lib/docker/containers/&lt;容器id&gt;/&lt;容器id&gt;-json.log</code> 下,容器销毁后<code>/var/lib/docker/containers/&lt;容器id&gt;/</code>目录会被自动删除，所以容器日志也被一并删除。如果容器一直运行并且一直产生日志，容器日志会导致磁盘空间爆满，解决方法如下：</p>
+<h2 id="小知识"><a href="#小知识" class="headerlink" title="小知识"></a>小知识</h2><h3 id="设置docker容器日志大小（全局设置）"><a href="#设置docker容器日志大小（全局设置）" class="headerlink" title="设置docker容器日志大小（全局设置）"></a>设置docker容器日志大小（全局设置）</h3><p>每个容器的日志默认都会以 json-file 的格式存储于<code>/var/lib/docker/containers/&lt;容器id&gt;/&lt;容器id&gt;-json.log</code> 下,容器销毁后<code>/var/lib/docker/containers/&lt;容器id&gt;/</code>目录会被自动删除，所以容器日志也被一并删除。如果容器一直运行并且一直产生日志，容器日志会导致磁盘空间爆满，解决方法如下：</p>
 <p>新建<code>/etc/docker/daemon.json</code>，若有就不用新建了。添加log-dirver和log-opts参数，如下：</p>
 <p>**</p>
 <pre class="line-numbers language-none"><code class="language-none"># vim &#x2F;etc&#x2F;docker&#x2F;daemon.json
@@ -594,6 +594,36 @@ systemctl restart docker
 <p><strong>注意：设置的日志大小，只对新建的容器有效。</strong></p>
 </blockquote>
 <p>设置完成之后，需要删除容器，并重新启动容器。</p>
+<h3 id="修改Docker数据⽬录位置，包含镜像位"><a href="#修改Docker数据⽬录位置，包含镜像位" class="headerlink" title="修改Docker数据⽬录位置，包含镜像位"></a>修改Docker数据⽬录位置，包含镜像位</h3><p>docker安装后默认目录是 <code>/var/lib/docker</code></p>
+<p>方法: </p>
+<p>在/home 目录下创建目录</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">cd &#x2F;home
+mkdir docker<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<p>修改docker的systemd的 docker.service的配置文件</p>
+<p>不知道 配置文件在哪里可以使用systemd 命令显示一下</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">systemctl disable docker<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">systemctl enable docker<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<blockquote>
+<p>Created symlink from /etc/systemd/system/multi-user.target.wants/docker.service to /usr/lib/systemd/system/docker.service.</p>
+</blockquote>
+<p>修改docker.service文件</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">vim &#x2F;usr&#x2F;lib&#x2F;systemd&#x2F;system&#x2F;docker.service<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>在里面的EXECStart的后面增加后如下:</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">ExecStart&#x3D;&#x2F;usr&#x2F;bin&#x2F;dockerd --graph &#x2F;home&#x2F;docker<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>重新enable 一下docker 服务 重新进行软连接 以及进行一次 daemon-reload</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">systemctl disable docker<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">systemctl enable docker<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">systemctl daemon-reload<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">systemctl restart docker<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
 
                 
             </div>
@@ -886,13 +916,13 @@ systemctl restart docker
                 下一篇&nbsp;<i class="fas fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2022/04/02/linux/gitlab-dai-ma-tuo-guan-fu-wu-qi-an-zhuang/">
+                <a href="/2022/01/27/linux/ftp/ftp-install/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="GitLab代码托管服务器安装">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="Linux 使用 Vsftpd 搭建 FTP 服务">
                         
-                        <span class="card-title">GitLab代码托管服务器安装</span>
+                        <span class="card-title">Linux 使用 Vsftpd 搭建 FTP 服务</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -903,7 +933,7 @@ systemctl restart docker
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="far fa-clock fa-fw icon-date"></i>2022-04-02
+                                <i class="far fa-clock fa-fw icon-date"></i>2022-01-27
                             </span>
                         <span class="publish-author">
                             
@@ -920,8 +950,8 @@ systemctl restart docker
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/gitlab/">
-                        <span class="chip bg-color">gitlab</span>
+                    <a href="/tags/ftp/">
+                        <span class="chip bg-color">ftp</span>
                     </a>
                     
                 </div>
